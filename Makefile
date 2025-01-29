@@ -2,8 +2,10 @@ NAME = cub3D
 SRC_F = srcs/free_error.c\
 		srcs/main.c \
 		srcs/parser_utils.c \
+		srcs/parser.c \
 		srcs/creat.c \
-		srcs/raycasting.c
+		srcs/raycasting.c \
+		srcs/init.c
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 LIB = -Lminilibx-linux -lmlx_Linux -Llibft -lft -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz

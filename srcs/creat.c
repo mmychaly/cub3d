@@ -55,7 +55,7 @@ void	init_game(t_data *data)
 	}
 	data->win = mlx_new_window(data->mlx, WIN_W, WIN_H, "CUB3D!");
 	if (!data->win)
-		window_error(data);
+		error_with_exit(data, NULL, NULL, NULL);
 	data->img = mlx_new_image(data->mlx, WIN_W, WIN_H);
     if (!data->img)
     {
