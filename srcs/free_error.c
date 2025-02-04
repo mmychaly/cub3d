@@ -7,14 +7,14 @@ void	free_strs(char **strs)
 	if (!strs)
 		return ; // Защита от NULL
 	i = 0;
-	while (strs[i])
+	while (strs[i] != NULL)
 	{
 		free(strs[i]);
 		strs[i] = NULL; // Обнуляем указатель после освобождения
 		i++;
 	}
 	free(strs);
-	strs = NULL; // Защита от dangling pointer
+	strs = NULL; // Защита
 }
 
 void	free_all(t_data *data)
@@ -41,40 +41,55 @@ void	free_all(t_data *data)
 		free(data->we);
 		data->we = NULL;
 	}
+	if (data->line)
+	{
+		free(data->line);
+		data->line = NULL;
+	}
 	if (data->map)
 	{
 		free_strs(data->map);
 		data->map = NULL;
 	}
-	if (data->mlx)
+	// if (data->mlx)
+	//{
+	//	mlx_destroy_display(data->mlx);
+	//	free(data->mlx);
+	//	data->mlx = NULL;
+	//}
+}
+
+void	free_gnl(int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
-		mlx_destroy_display(data->mlx);
-		free(data->mlx);
-		data->mlx = NULL;
+		free(line);
+		line = get_next_line(fd);
 	}
 }
 
-int	error_wo_exit(t_data *data, char *message)
+int	error_wo_exit(char *message)
 {
 	if (message)
 		printf("Error\n%s\n", message);
-	free_all(data);
 	return (-1);
 }
 
-void	error_with_exit(t_data *data, char *message, char *to_free, int *fd)
+void	error_with_exit(t_data *data, char *msg, char *to_free, char **split) //Аргументы для очистки актуальны для парсера
 {
-	if (message)
-		printf("Error\n%s\n", message);
+	if (msg)
+		printf("Error\n%s\n", msg);
+	if(split)
+		free_strs(split);
 	if (to_free)
-	{
 		free(to_free);
-		to_free = NULL;
-	}
-	if (fd && *fd >= 0) // Проверяем, открыт ли fd
+	if (data->fd > 0)
 	{
-		close(*fd);
-		*fd = -1;
+		free_gnl(data->fd);
+		close(data->fd);
 	}
 	free_all(data);
 	exit(1);

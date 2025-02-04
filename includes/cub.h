@@ -41,6 +41,8 @@ typedef struct s_data
 	int			bpp;
 	int			line_length;
 	int			endian;
+	int			fd;
+	char		*line;
 	t_player	player;
 }				t_data;
 
@@ -71,16 +73,27 @@ int				check_first_line(char *str);
 int				get_map_dimensions(t_data *data, int i, int j,
 					int *counter_pos);
 void			init_map(t_data *data, char *str, int fd, char **temp);
-void			init_data(t_data *data, char **argv);
 
 void			init_player_direction(t_data *data);
 void			draw_vertical_line(t_data *data, int x, int draw_start,
 					int draw_end, int color);
 void			raycasting(t_data *data);
 void			init_map(t_data *data, char *str, int fd, char **temp);
-void			init_data(t_data *data, char **argv);
 int				check_map_borders(t_data *data);
-void	error_with_exit(t_data *data, char *message, char *to_free, int *fd);
-int				error_wo_exit(t_data *data, char *message);
+void			error_with_exit(t_data *data, char *msg, char *to_free,
+					char **split);
+int				error_wo_exit(char *message);
+int				is_valid_map_char(char c);
+int				define_colors(char *str);
+char			*trim_end_spaces(char *str);
+void			init_map(t_data *data, char *str, int fd, char **temp);
+void			parse_textures_and_colors(t_data *data, int fd);
+void			parse_map_lines(t_data *data, int fd);
+int				check_map_validity(t_data *data);
+void			parse_cub_file(t_data *data, char *map_path);
+void			init_data(t_data *data, char *map_path);
+int				check_map_closure(t_data *data);
+void			pad_map(t_data *data);
+int				check_map_closure_flood(t_data *data);
 
 #endif

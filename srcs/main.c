@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 03:12:00 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/01/29 23:16:07 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/05 02:39:48 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	if (argc != 2)
-		error_with_exit(NULL, "Wrong number of arguments", NULL, NULL);
+	{
+		printf("Error\nUsage: %s <map.cub>\n", argv[0]);
+		return (1);
+	}
 	ft_memset(&data, 0, sizeof(t_data));
-	init_data(&data, argv);
+	init_data(&data, argv[1]);
 	printf_map(&data);
 	creat_game(&data);
 	mlx_destroy_image(data.mlx, data.img);
