@@ -3,9 +3,11 @@ SRC_F = srcs/free_error.c\
 		srcs/main.c \
 		srcs/parser_utils.c \
 		srcs/parser.c \
-		srcs/parcer_textures.c \
+		srcs/parser_textures.c \
+		srcs/parser_textures_utils.c \
 		srcs/parser_map.c \
 		srcs/parser_flood.c \
+		srcs/parser_map_utils.c \
 		srcs/creat.c \
 		srcs/raycasting.c \
 		srcs/init.c

@@ -6,13 +6,12 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 03:10:27 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/02/03 23:41:56 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/13 01:59:09 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-/* Убираем пробелы только в конце строки */
 char	*trim_end_spaces(char *str)
 {
 	int		end;
@@ -52,22 +51,24 @@ int	define_colors(char *str)
 	free_strs(nb);
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 		return (-1);
-	color = ((unsigned char)r << 16)
-			| ((unsigned char)g << 8)
-			| (unsigned char)b;
+	color = ((unsigned char)r << 16) | ((unsigned char)g << 8)
+		| (unsigned char)b;
 	return (color);
 }
 
 int	is_valid_map_char(char c)
 {
-	return (c == '0' || c == '1' || c == ' '
-		|| c == 'N' || c == 'S' || c == 'E' || c == 'W');
+	return (c == '0' || c == '1' || c == ' ' || c == 'N' || c == 'S' || c == 'E'
+		|| c == 'W');
 }
 
-void printf_map(t_data *data)//Просто вывод карты для визуализации парсера
+void	printf_map(t_data *data)
 {
-	int i = 0;
-	int i_2 = 0;
+	int	i;
+	int	i_2;
+
+	i = 0;
+	i_2 = 0;
 	printf("data.no %s\n", data->no);
 	printf("data.so %s\n", data->so);
 	printf("data.ea %s\n", data->ea);
@@ -79,7 +80,7 @@ void printf_map(t_data *data)//Просто вывод карты для виз�
 		i_2 = 0;
 		while (data->map[i][i_2] != '\n' && data->map[i][i_2] != '\0')
 		{
-			printf("%c",data->map[i][i_2]);
+			printf("%c", data->map[i][i_2]);
 			i_2++;
 		}
 		printf("\n");
@@ -87,11 +88,11 @@ void printf_map(t_data *data)//Просто вывод карты для виз�
 	}
 }
 
-void remove_newline(char *str)
+void	remove_newline(char *str)
 {
-    int len;
+	int	len;
 
 	len = ft_strlen(str);
-    if (len > 0 && str[len - 1] == '\n')
-        str[len - 1] = '\0';
+	if (len > 0 && str[len - 1] == '\n')
+		str[len - 1] = '\0';
 }

@@ -1,25 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_flood.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/13 01:59:19 by artemii           #+#    #+#             */
+/*   Updated: 2025/02/13 02:02:18 by artemii          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub.h"
 
 int	**allocate_visited(int height, int width)
 {
 	int	**visited;
 	int	i;
-			int j;
+	int	j;
 
+	i = 0;
 	visited = malloc(sizeof(int *) * height);
 	if (!visited)
 		return (NULL);
-	for (i = 0; i < height; i++)
+	while (i < height)
 	{
 		visited[i] = malloc(sizeof(int) * width);
 		if (!visited[i])
 		{
-			for (j = 0; j < i; j++)
-				free(visited[j]);
+			j = 0;
+			while (j < i)
+				free(visited[j++]);
 			free(visited);
 			return (NULL);
 		}
 		memset(visited[i], 0, sizeof(int) * width);
+		i++;
 	}
 	return (visited);
 }
@@ -28,20 +43,18 @@ void	free_visited(int **visited, int height)
 {
 	int	i;
 
-	for (i = 0; i < height; i++)
-		free(visited[i]);
+	i = 0;
+	while (i < height)
+		free(visited[i++]);
 	free(visited);
 }
 
 int	flood_fill(t_data *data, int i, int j, int **visited)
 {
-	/* Если вышли за пределы карты – ошибка */
 	if (i < 0 || j < 0 || i >= data->map_height || j >= data->map_width)
 		return (1);
-	/* Если ячейка – пробел, значит заливка попала в «неопределённую» область */
 	if (data->map[i][j] == ' ')
 		return (1);
-	/* Если стена – останавливаем заливку */
 	if (data->map[i][j] == '1')
 		return (0);
 	if (visited[i][j])
@@ -57,6 +70,7 @@ int	flood_fill(t_data *data, int i, int j, int **visited)
 		return (1);
 	return (0);
 }
+
 int	check_map_closure_flood(t_data *data)
 {
 	int	**visited;
@@ -72,7 +86,7 @@ int	check_map_closure_flood(t_data *data)
 	if (flood_fill(data, start_i, start_j, visited))
 	{
 		free_visited(visited, data->map_height);
-		return (error_wo_exit("Invalid map closure: flood fill reached border or space"));
+		return (error_wo_exit("Flood fill reached border or space"));
 	}
 	free_visited(visited, data->map_height);
 	return (0);

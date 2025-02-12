@@ -15,7 +15,7 @@ test_maps_in_dir() {
         echo "----------------------------------------------------"
         echo "Проверяем: $file"
         # Для хороших карт игра может запуститься в окно – используем timeout, чтобы завершить процесс через 2 секунды
-        output=$(timeout 2s "$EXEC" "$file" 2>&1)
+        output=$(timeout 1s "$EXEC" "$file" 2>&1)
         # Берём первую строку вывода
         first_line=$(echo "$output" | head -n1)
         
@@ -49,12 +49,12 @@ test_maps_in_dir() {
 }
 
 # Тестируем хорошие карты (ожидается, что программа не выводит "Error" на первой строке)
-#test_maps_in_dir "maps/good" "good"
-#good_result=$?
+test_maps_in_dir "maps/good" "good"
+good_result=$?
 
 # Тестируем плохие карты (ожидается, что программа выводит "Error" на первой строке)
-test_maps_in_dir "maps/bad" "bad"
-bad_result=$?
+#test_maps_in_dir "maps/bad" "bad"
+#bad_result=$?
 
 if [ $good_result -eq 0 ] && [ $bad_result -eq 0 ]; then
     echo "Все тесты пройдены успешно!"

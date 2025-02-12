@@ -1,7 +1,7 @@
-NO ./textures/greystone.xpm
-SO ./textures/purplestone.xpm
-WE ./textures/redbrick.xpm
-EA ./textures/wood.xpm
+NO textures/simonkraft/wet_sponge.xpm
+SO textures/simonkraft/wet_sponge.xpm
+WE textures/simonkraft/wet_sponge.xpm
+EA textures/simonkraft/wet_sponge.xpm
 
 F 100,255,100
 C 163,208,230

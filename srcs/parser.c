@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/13 01:46:49 by artemii           #+#    #+#             */
+/*   Updated: 2025/02/13 01:47:38 by artemii          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub.h"
 
 static int	has_cub_extension(const char *filename)
@@ -24,17 +36,13 @@ void	parse_cub_file(t_data *data, char *map_path)
 	fd = open(map_path, O_RDONLY);
 	if (fd < 0)
 		error_with_exit(data, "Failed to open map file", NULL, NULL);
-	/* Сначала читаем текстуры и цвета */
 	data->fd = fd;
 	parse_textures_and_colors(data, fd);
-	/* Затем читаем карту (оставшиеся строки) */
 	parse_map_lines(data, fd);
 	close(fd);
 	pad_map(data);
-	/* Дополнительные проверки: наличие игрока и замкнутость карты */
 	if (check_map_validity(data) < 0)
 		error_with_exit(data, "Invalid map", NULL, NULL);
-	/* Чекаем на закрытость карты для игрока */
-	if (check_map_closure_flood(data) < 0) // Тут надо обсудить, если есть незакрытые стены, но игрок до туда не дойдет - не блокируем
+	if (check_map_closure(data) < 0 || check_map_closure_flood(data) < 0)
 		error_with_exit(data, "Invalid map closure", NULL, NULL);
 }

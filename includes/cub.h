@@ -95,5 +95,10 @@ void			init_data(t_data *data, char *map_path);
 int				check_map_closure(t_data *data);
 void			pad_map(t_data *data);
 int				check_map_closure_flood(t_data *data);
+int				check_map_universal(t_data *data);
+char			*join_tokens(char **tokens, int start_index);
+int				is_all_textures_and_colors_set(t_data *data);
+char			*remove_all_spaces(const char *s);
+void			check_texture_file(char *path, t_data *data, char **split);
 
 #endif
