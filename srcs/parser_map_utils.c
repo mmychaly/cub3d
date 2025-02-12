@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 01:54:59 by artemii           #+#    #+#             */
-/*   Updated: 2025/02/13 01:56:58 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/13 03:01:22 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	check_map_closure(t_data *data)
 
 void	move_pos(t_data *data, int *i, int *j, int *player_count)
 {
-	data->player.pos_x = *i + 0.5;
-	data->player.pos_y = *j + 0.5;
+	data->player.pos_x = *j + 0.5;
+	data->player.pos_y = *i + 0.5;
 	data->player.direction = data->map[*i][*j];
 	*player_count += 1;
 }
