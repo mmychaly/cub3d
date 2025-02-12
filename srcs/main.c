@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 03:12:00 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/02/13 02:37:06 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/13 02:48:37 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(int argc, char **argv)
 	init_data(&data, argv[1]);
 	printf_map(&data);
 	creat_game(&data);
-
 	mlx_destroy_image(data.mlx, data.image.img);
 	mlx_destroy_window(data.mlx, data.win);
 	mlx_destroy_display(data.mlx);
