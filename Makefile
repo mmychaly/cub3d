@@ -3,6 +3,7 @@ SRC_F = srcs/free_error.c\
 		srcs/main.c \
 		srcs/parser_utils.c \
 		srcs/creat.c \
+		srcs/movement.c \
 		srcs/raycasting.c
 CC = cc
 FLAGS = -Wall -Werror -Wextra

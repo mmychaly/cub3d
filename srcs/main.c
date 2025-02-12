@@ -6,7 +6,7 @@
 /*   By: mmychaly <mmychaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 03:12:00 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/01/27 20:43:06 by mmychaly         ###   ########.fr       */
+/*   Updated: 2025/02/06 22:45:43 by mmychaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int get_map_dimensions(t_data *data)
 				return (-1);//Есть лишние символы
             if (data->map[i][i_2] == 'N' || data->map[i][i_2] == 'S' || data->map[i][i_2] == 'E' || data->map[i][i_2] == 'W')
             {
-                data->player.pos_x = (double)i + 0.5;
-				data->player.pos_y = (double)i_2 + 0.5;
+                data->player.pos_x = (double)i_2 + 0.5;
+				data->player.pos_y = (double)i + 0.5;
 				data->player.direction = data->map[i][i_2];
 				counter_pos++;
 				if (counter_pos > 1)
@@ -236,7 +236,7 @@ int main(int argc, char **argv)
 	printf_map(&data);
 	creat_game(&data);
 
-	mlx_destroy_image(data.mlx, data.img);
+	mlx_destroy_image(data.mlx, data.image.img);
 	mlx_destroy_window(data.mlx, data.win);
 	mlx_destroy_display(data.mlx);
 	free(data.mlx);
