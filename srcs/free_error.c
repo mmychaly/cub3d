@@ -88,12 +88,3 @@ void	error_with_exit(t_data *data, char *msg, char *to_free, char **split) //ÐÑ
 	free_all(data);
 	exit(1);
 }
-
-void	window_error(t_data *data)
-{
-	perror("Error\n");
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
-	free_all(data);
-	exit(EXIT_FAILURE);
-}
