@@ -9,6 +9,7 @@ SRC_F = srcs/free_error.c\
 		srcs/parser_flood.c \
 		srcs/parser_map_utils.c \
 		srcs/creat.c \
+		srcs/movement.c \
 		srcs/raycasting.c \
 		srcs/init.c
 CC = cc

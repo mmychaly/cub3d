@@ -9,19 +9,31 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define WIN_W 800
-# define WIN_H 600
+# define WIN_W  800
+# define WIN_H  600
+# define TEX_SIZE   64
+# define ROT_SPEED 0.05
+# define MOVE_SPEED 0.05
 
 typedef struct s_player
 {
 	double		pos_x;
 	double		pos_y;
-	double		dir_x;
-	double		dir_y;
-	double		plane_x;
-	double		plane_y;
-	char		direction;
-}				t_player;
+    double dir_x;
+    double dir_y;
+    double plane_x;
+    double plane_y;
+	char    direction;
+}			t_player;
+
+typedef struct s_img_data
+{
+    void *img;
+    char *addr;
+    int bpp;
+    int line_length;
+    int endian;
+}           t_img_data;
 
 typedef struct s_data
 {
@@ -43,6 +55,12 @@ typedef struct s_data
 	int			endian;
 	int			fd;
 	char		*line;
+	
+	t_img_data	north;
+	t_img_data	south;
+	t_img_data	west;
+	t_img_data	east;
+	t_img_data	image;
 	t_player	player;
 }				t_data;
 
@@ -60,6 +78,21 @@ void			creat_floor_celling(t_data *data);
 void			put_pixel(t_data *data, int x, int y, int color);
 int				key_handler(int keycode, t_data *data);
 int				close_window(t_data *data);
+void			creat_game(t_data *data);
+void			init_game(t_data *data);
+int				draw_img(t_data *data);
+void			creat_floor_celling(t_data *data);
+void			put_pixel(t_data *data, int x, int y, int color);
+
+int				key_handler(int keycode, t_data *data);
+int				close_window(t_data *data);
+void			rotate_left(t_data *data);
+void			rotate_right(t_data *data);
+void			move_forward(t_data *data);
+void			move_backward(t_data *data);
+void			move_left(t_data *data);
+void			move_right(t_data *data);
+int				handle_mouse(int x, int y, t_data *data);
 
 void			free_strs(char **strs);
 void			free_all(t_data *data);
@@ -101,4 +134,14 @@ int				is_all_textures_and_colors_set(t_data *data);
 char			*remove_all_spaces(const char *s);
 void			check_texture_file(char *path, t_data *data, char **split);
 
+void			init_player_direction(t_data *data);
+void			draw_vertical_line(t_data *data, int x, int draw_start,
+					int draw_end, int color);
+void			raycasting(t_data *data);
+
+void			loading_texture(t_data *data, t_img_data *texture, char *path);
+unsigned int	get_texture_color(t_img_data *texture, int x, int y);
+void			draw_textured_line(t_data *data, int x, int draw_start,
+					int draw_end, t_img_data *texture, double wall_x,
+					int line_height);
 #endif

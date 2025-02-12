@@ -5,43 +5,52 @@ void init_player_direction(t_data *data)
     // Инициализация начального направления и плоскости камеры
     if (data->player.direction == 'N')
     {
-        data->player.dir_x = -1.0;
-        data->player.dir_y = 0.0;
-        data->player.plane_x = 0.0;
-        data->player.plane_y = 0.66;
+        data->player.dir_x = 0.0;
+        data->player.dir_y = -1.0;
+        data->player.plane_x = 0.66;
+        data->player.plane_y = 0.0;
     }
     else if (data->player.direction == 'S')
+    {
+        data->player.dir_x = 0.0;
+        data->player.dir_y = 1.0;
+        data->player.plane_x = -0.66;
+        data->player.plane_y = 0.0;
+    }
+    else if (data->player.direction == 'E')
     {
         data->player.dir_x = 1.0;
         data->player.dir_y = 0.0;
         data->player.plane_x = 0.0;
-        data->player.plane_y = -0.66;
-    }
-    else if (data->player.direction == 'E')
-    {
-        data->player.dir_x = 0.0;
-        data->player.dir_y = 1.0;
-        data->player.plane_x = 0.66;
-        data->player.plane_y = 0.0;
+        data->player.plane_y = 0.66;
     }
     else if (data->player.direction == 'W')
     {
-        data->player.dir_x = 0.0;
-        data->player.dir_y = -1.0;
-        data->player.plane_x = -0.66;
-        data->player.plane_y = 0.0;
+        data->player.dir_x = -1.0;
+        data->player.dir_y = 0.0;
+        data->player.plane_x = 0.0;
+        data->player.plane_y = -0.66;
     }
 }
 
-void draw_vertical_line(t_data *data, int x, int draw_start, int draw_end, int color)
+void draw_textured_line(t_data *data, int x, int draw_start, int draw_end, t_img_data *texture, double wall_x, int line_height)
 {
+    int tex_size = TEX_SIZE;// Используем для размера текстуры
+    int tex_x = (int)(wall_x * tex_size);// Вычисляем x координату на текстуре с более точным приведением типов
+    double step = (double)tex_size / line_height;// Вычисляем шаг текстуры с большей точностью
+    double tex_pos = (draw_start - ((WIN_H - line_height) / 2.0)) * step;// Вычисляем начальную позицию текстуры с учетом смещения
+    
     int y = draw_start;
-    while (y < draw_end)
+    while (y <= draw_end)
     {
+        int tex_y = (int)tex_pos & (tex_size - 1);// Обеспечиваем корректную y-координату текстуры
+        tex_pos += step;
+        unsigned int color = get_texture_color(texture, tex_x, tex_y);// Получаем цвет из текстуры
         put_pixel(data, x, y, color);
         y++;
     }
 }
+
 void raycasting(t_data *data)
 {
     int x = 0;
@@ -69,168 +78,97 @@ void raycasting(t_data *data)
         int step_y;
         
         // Определяем направление шага и начальное расстояние
-        if (ray_dir_x < 0)
+        if (ray_dir_x < 0) //луч движется влево
         {
             step_x = -1;
             side_dist_x = (data->player.pos_x - map_x) * delta_dist_x;
         }
-        else
+        else //луч движется вправо
         {
             step_x = 1;
             side_dist_x = (map_x + 1.0 - data->player.pos_x) * delta_dist_x;
         }
-        if (ray_dir_y < 0)
+        if (ray_dir_y < 0)//луч движется вверх
         {
             step_y = -1;
             side_dist_y = (data->player.pos_y - map_y) * delta_dist_y;
         }
-        else
+        else//луч движется вниз
         {
             step_y = 1;
             side_dist_y = (map_y + 1.0 - data->player.pos_y) * delta_dist_y;
         }
 
         // 6. DDA алгоритм
-        int hit = 0;
-        int side;
-        while (hit == 0)
+
+        int side;//Флаг для стены горизонатльная/вертикальная 
+        while (data->map[map_y][map_x] != '1')//пока стена не найдена 
         {
-            if (side_dist_x < side_dist_y)
+            if (side_dist_x < side_dist_y)//Если вертикальная грань ближе 
             {
-                side_dist_x += delta_dist_x;
-                map_x += step_x;
-                side = 0;
+                // Перемещаемся по горизонтали
+                side_dist_x += delta_dist_x;//Увеличиваем дистанцию до следующей горизонатльной грани 
+                map_x += step_x;// Перемещаемся на следующую сетку по горизонтали 
+                side = 0;// Отмечаем что пересекли вертикальную грань
             }
-            else
+            else// Если ближайшая горизонтальная грань
             {
-                side_dist_y += delta_dist_y;
-                map_y += step_y;
-                side = 1;
+                // Перемещаемся по вертикали
+                side_dist_y += delta_dist_y;// Увеличиваем расстояние до следующей вертикальной грани
+                map_y += step_y; // Перемещаемся на следующую сетку по вертикали
+                side = 1;// Отмечаем что пересекли горизонтальную грань
             }
-            if (data->map[map_x][map_y] == '1')
-                hit = 1;
         }
 
         // 7. Вычисление расстояния до стены
-        double perp_wall_dist;
+        double wall_dist;
         if (side == 0)
-            perp_wall_dist = (side_dist_x - delta_dist_x);
+            wall_dist = (side_dist_x - delta_dist_x);
         else
-            perp_wall_dist = (side_dist_y - delta_dist_y);
+            wall_dist = (side_dist_y - delta_dist_y);
 
         // 8. Вычисление высоты линии для отрисовки
-        int line_height = (int)(WIN_H / perp_wall_dist);
-        int draw_start = -line_height / 2 + WIN_H / 2;
+        int line_height = (int)(WIN_H / wall_dist);
+        int draw_start = WIN_H / 2 - line_height / 2;
         if (draw_start < 0)
             draw_start = 0;
-        int draw_end = line_height / 2 + WIN_H / 2;
+        int draw_end = WIN_H / 2 + line_height / 2;
         if (draw_end >= WIN_H)
-            draw_end = WIN_H - 1;
-
-        // 9. Выбор цвета стены
-        int color = 0xFF0000;  // Красный цвет для начала
-        if (side == 1)
-            color = color / 2;  // Делаем темнее для стен по Y
+            draw_end = WIN_H - 1;//Исли убрать -1 то пропадает проблема с полосой в пиксель 
+        double wall_x;
+        if (side == 0)
+//		    wall_x = data->player.pos_y + wall_dist * data->player.dir_y;//Пропадают тестуры спереди
+            wall_x = data->player.pos_y + wall_dist * ray_dir_y;//Хорошие текстуры
+	    else
+           wall_x = data->player.pos_x + wall_dist * ray_dir_x;
+//		    wall_x = data->player.pos_x + wall_dist * data->player.dir_x;
+	    wall_x -= floor(wall_x);
+        t_img_data *current_texture;
+        if (side == 0 && ray_dir_x < 0)//Западная стена 
+            current_texture = &data->west;
+        else if (side == 0 && ray_dir_x > 0)//Восточная стена
+            current_texture = &data->east;
+        else if (side == 1 && ray_dir_y < 0)//Северная
+            current_texture = &data->north;
+        else if (side == 1 && ray_dir_y > 0)//Южная стена
+            current_texture = &data->south;
 
         // 10. Отрисовка вертикальной линии
-        draw_vertical_line(data, x, draw_start, draw_end, color);
+        draw_textured_line(data, x, draw_start, draw_end, current_texture, wall_x, line_height);
         x++;
     }
 }
-/*
-void raycasting(t_data *data)
-{
-    int x = 0;
-    while (x < WIN_W)
-    {
-        double camera_x = 2 * x / (double)WIN_W - 1;
-        double ray_dir_x = data->player.dir_x + data->player.plane_x * camera_x;
-        double ray_dir_y = data->player.dir_y + data->player.plane_y * camera_x;
 
-        int map_x = (int)data->player.pos_x;
-        int map_y = (int)data->player.pos_y;
 
-        // Защита от деления на ноль
-        double delta_dist_x = (ray_dir_x == 0) ? 1e30 : fabs(1 / ray_dir_x);
-        double delta_dist_y = (ray_dir_y == 0) ? 1e30 : fabs(1 / ray_dir_y);
-
-        double side_dist_x;
-        double side_dist_y;
-        int step_x;
-        int step_y;
-        
-        if (ray_dir_x < 0)
+        // Применяем затемнение с плавным переходом
+/*       if (wall_dist > 1.0)
         {
-            step_x = -1;
-            side_dist_x = (data->player.pos_x - map_x) * delta_dist_x;
-        }
-        else
-        {
-            step_x = 1;
-            side_dist_x = (map_x + 1.0 - data->player.pos_x) * delta_dist_x;
-        }
-        if (ray_dir_y < 0)
-        {
-            step_y = -1;
-            side_dist_y = (data->player.pos_y - map_y) * delta_dist_y;
-        }
-        else
-        {
-            step_y = 1;
-            side_dist_y = (map_y + 1.0 - data->player.pos_y) * delta_dist_y;
-        }
-
-        int hit = 0;
-        int side;
-        
-        // Добавляем проверку границ карты
-        while (hit == 0)
-        {
-            if (side_dist_x < side_dist_y)
-            {
-                side_dist_x += delta_dist_x;
-                map_x += step_x;
-                side = 0;
-            }
-            else
-            {
-                side_dist_y += delta_dist_y;
-                map_y += step_y;
-                side = 1;
-            }
+            double darkness = 1.0 / wall_dist;
+            if (darkness > 1.0) 
+                darkness = 1.0;
+            unsigned char r = (unsigned char)(((color >> 16) & 0xFF) * darkness);
+            unsigned char g = (unsigned char)(((color >> 8) & 0xFF) * darkness);
+            unsigned char b = (unsigned char)((color & 0xFF) * darkness);
             
-            // Проверка границ карты
-            if (map_x < 0 || map_x >= data->map_height || 
-                map_y < 0 || map_y >= data->map_width)
-                break;
-                
-            if (data->map[map_x][map_y] == '1')
-                hit = 1;
-        }
-
-        if (hit)  // Рисуем стену только если попали в нее
-        {
-            double perp_wall_dist;
-            if (side == 0)
-                perp_wall_dist = side_dist_x - delta_dist_x;
-            else
-                perp_wall_dist = side_dist_y - delta_dist_y;
-
-            if (perp_wall_dist > 0)  // Защита от отрицательных расстояний
-            {
-                int line_height = (int)(WIN_H / perp_wall_dist);
-                int draw_start = -line_height / 2 + WIN_H / 2;
-                if (draw_start < 0) draw_start = 0;
-                int draw_end = line_height / 2 + WIN_H / 2;
-                if (draw_end >= WIN_H) draw_end = WIN_H - 1;
-
-                int color = 0xFF0000;
-                if (side == 1)
-                    color = color / 2;
-
-                draw_vertical_line(data, x, draw_start, draw_end, color);
-            }
-        }
-        x++;
-    }
-}*/
+            color = (r << 16) | (g << 8) | b;
+        }*/
