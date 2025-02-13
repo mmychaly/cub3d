@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 01:59:19 by artemii           #+#    #+#             */
-/*   Updated: 2025/02/13 02:02:18 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/14 00:49:54 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	check_map_closure_flood(t_data *data)
 	int	start_i;
 	int	start_j;
 
-	start_i = (int)data->player.pos_x;
-	start_j = (int)data->player.pos_y;
+	start_i = (int)data->player.pos_y;
+	start_j = (int)data->player.pos_x;
 	visited = allocate_visited(data->map_height, data->map_width);
 	if (!visited)
 		error_with_exit(data, "Memory allocation failed in flood fill", NULL,
