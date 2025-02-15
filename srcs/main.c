@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmychaly <mmychaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 03:12:00 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/02/13 02:48:37 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/14 22:45:56 by mmychaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,6 @@ int	main(int argc, char **argv)
 	init_data(&data, argv[1]);
 	printf_map(&data);
 	creat_game(&data);
-	mlx_destroy_image(data.mlx, data.image.img);
-	mlx_destroy_window(data.mlx, data.win);
-	mlx_destroy_display(data.mlx);
-	free(data.mlx);
 	free_all(&data);
 	return (0);
 }
-
-// Извлечение компонентов из числа
-/*void extract_rgb(unsigned int color, unsigned char *r, unsigned char *g,
-	unsigned char *b)
-{
-	*r = (color >> 16) & 0xff;
-	*g = (color >> 8) & 0xff;
-	*b = color & 0xff;
-}*/
