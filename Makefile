@@ -1,5 +1,6 @@
 NAME = cub3D
 SRC_F = srcs/free_error.c\
+		srcs/free_error_2.c \
 		srcs/main.c \
 		srcs/parser_utils.c \
 		srcs/parser.c \
@@ -8,9 +9,12 @@ SRC_F = srcs/free_error.c\
 		srcs/parser_map.c \
 		srcs/parser_flood.c \
 		srcs/parser_map_utils.c \
-		srcs/creat.c \
+		srcs/creat_game.c \
+		srcs/creat_game_utils.c \
 		srcs/movement.c \
+		srcs/movement_utils.c \
 		srcs/raycasting.c \
+		srcs/raycasting_utils.c \
 		srcs/init.c
 CC = cc
 FLAGS = -Wall -Werror -Wextra
