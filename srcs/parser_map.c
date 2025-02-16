@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 01:48:46 by artemii           #+#    #+#             */
-/*   Updated: 2025/02/13 02:21:29 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/16 23:44:58 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	parse_map_lines(t_data *data, int fd)
 	map_ended = 0;
 	data->map = NULL;
 	data->map_height = 0;
-	while ((data->line = get_next_line(fd)))
+	data->line = get_next_line(fd);
+	while ((data->line))
 	{
 		remove_newline(data->line);
 		trimmed = ft_strtrim(data->line, " \t\r\n");
@@ -110,6 +111,7 @@ void	parse_map_lines(t_data *data, int fd)
 			handle_line_before_map(data, trimmed, &map_started);
 		else
 			handle_line_after_map(data, trimmed, &map_ended);
+		data->line = get_next_line(fd);
 	}
 	calc_map_width(data);
 	if (data->map_height == 0)
