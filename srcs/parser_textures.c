@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 02:03:14 by artemii           #+#    #+#             */
-/*   Updated: 2025/02/13 02:12:36 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/21 00:36:47 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	assign_texture(t_data *data, char **split, char **texture_field,
 {
 	if (*texture_field != NULL)
 		error_with_exit(data, dup_err, NULL, split);
+	if (!split[1] || split[2])
+		error_with_exit(data, "Textures: wrong arguments", NULL, split);
 	*texture_field = ft_strdup(split[1]);
 	check_texture_file(*texture_field, data, split);
 }
@@ -91,19 +93,18 @@ void	parse_single_line(t_data *data, char *line)
 
 void	parse_textures_and_colors(t_data *data, int fd)
 {
-	char	*line;
-	int		end_of_header;
+	int	end_of_header;
 
 	end_of_header = 0;
 	while (!end_of_header)
 	{
-		line = get_next_line(fd);
-		data->line = line;
-		if (!line)
+		data->line = get_next_line(fd);
+		if (!data->line)
 			error_with_exit(data, "Empty .cub file", NULL, NULL);
-		remove_newline(line);
-		parse_single_line(data, line);
-		free(line);
+		remove_newline(data->line);
+		parse_single_line(data, data->line);
+		free(data->line);
+		data->line = NULL;
 		end_of_header = is_all_textures_and_colors_set(data);
 		if (end_of_header)
 			break ;

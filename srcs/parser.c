@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 01:46:49 by artemii           #+#    #+#             */
-/*   Updated: 2025/02/13 01:47:38 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/21 02:03:25 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	parse_cub_file(t_data *data, char *map_path)
 		error_with_exit(data, "Failed to open map file", NULL, NULL);
 	data->fd = fd;
 	parse_textures_and_colors(data, fd);
+	check_unique_textures(data);
 	parse_map_lines(data, fd);
 	close(fd);
 	pad_map(data);
