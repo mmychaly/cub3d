@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 01:54:59 by artemii           #+#    #+#             */
-/*   Updated: 2025/02/21 02:01:32 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/22 23:26:26 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ int	check_cell_closure(t_data *data, int i, int j)
 		{
 			ni = i + di;
 			nj = j + dj;
-			if (ni < 0 || nj < 0 || ni >= data->map_height || nj >= data->map_width)
+			if (ni < 0 || nj < 0 || ni >= data->map_height
+				|| nj >= data->map_width)
 				return (error_wo_exit("Map is not closed (border reached)"));
-			if (data->map[ni][nj] == ' ' &&
-				!((di != 0 && dj != 0) &&
-				  (data->map[i + di][j] == '1' && data->map[i][j + dj] == '1')))
+			if (data->map[ni][nj] == ' ' && !((di != 0 && dj != 0)
+					&& (data->map[i + di][j] == '1' && data->map[i][j
+						+ dj] == '1')))
 				return (error_wo_exit("Map is not closed (empty space)"));
 			dj++;
 		}
