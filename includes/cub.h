@@ -6,7 +6,7 @@
 /*   By: mmychaly <mmychaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 03:55:58 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/02/15 03:57:13 by mmychaly         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:18:25 by mmychaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define WIN_W  800
 # define WIN_H  600
 # define TEX_SIZE   64
-# define ROT_SPEED 0.0125
-# define MOVE_SPEED 0.0125
+# define ROT_SPEED 0.005
+# define MOVE_SPEED 0.005
 # define MOUSE_SPEED 0.006
 
 typedef struct s_mouse

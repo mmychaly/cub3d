@@ -23,12 +23,14 @@ RM = rm -f
 
 $(NAME): $(SRC_F)
 	@make all -C libft
+	@make all -C minilibx-linux
 	$(CC) $(FLAGS) $^ -o $@ $(LIB) -Iincludes
 
 all: $(NAME)
 
 clean:
 	make clean -C libft
+	make clean -C minilibx-linux
 
 fclean: clean
 	make fclean -C libft
