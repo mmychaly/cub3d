@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmychaly <mmychaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 03:12:00 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/02/14 22:45:56 by mmychaly         ###   ########.fr       */
+/*   Updated: 2025/02/25 01:28:26 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int argc, char **argv)
 	}
 	ft_memset(&data, 0, sizeof(t_data));
 	init_data(&data, argv[1]);
-	printf_map(&data);
 	creat_game(&data);
 	free_all(&data);
 	return (0);

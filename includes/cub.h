@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 03:55:58 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/02/21 00:23:24 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/25 01:28:38 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define WIN_W 800
 # define WIN_H 600
 # define TEX_SIZE 64
-# define ROT_SPEED 0.0125
-# define MOVE_SPEED 0.0125
+# define ROT_SPEED 0.005
+# define MOVE_SPEED 0.005
 # define MOUSE_SPEED 0.006
 
 typedef struct s_mouse
@@ -138,7 +138,7 @@ void			error_with_exit(t_data *data, char *msg, char *to_free,
 					char **split);
 int				error_wo_exit(char *message);
 
-void	printf_map(t_data *data); //Удалить перед сдачей
+void			printf_map(t_data *data);
 void			remove_newline(char *str);
 int				define_colors(char *str);
 int				check_first_line(char *str);
