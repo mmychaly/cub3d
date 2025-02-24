@@ -6,7 +6,7 @@
 /*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 03:10:27 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/02/13 01:59:09 by artemii          ###   ########.fr       */
+/*   Updated: 2025/02/21 00:31:17 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	define_colors(char *str)
 	if (!str)
 		return (-1);
 	nb = ft_split(str, ',');
-	if (!nb || !nb[0] || !nb[1] || !nb[2] || nb[3])
+	if (!nb || !nb[0] || !nb[1] || !nb[2] || nb[3] || !is_str_numeric(nb))
 	{
 		free_strs(nb);
 		return (-1);

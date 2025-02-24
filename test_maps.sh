@@ -53,8 +53,8 @@ test_maps_in_dir "maps/good" "good"
 good_result=$?
 
 # Тестируем плохие карты (ожидается, что программа выводит "Error" на первой строке)
-#test_maps_in_dir "maps/bad" "bad"
-#bad_result=$?
+test_maps_in_dir "maps/bad" "bad"
+bad_result=$?
 
 if [ $good_result -eq 0 ] && [ $bad_result -eq 0 ]; then
     echo "Все тесты пройдены успешно!"

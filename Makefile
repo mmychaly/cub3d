@@ -15,6 +15,7 @@ SRC_F = srcs/free_error.c\
 		srcs/movement_utils.c \
 		srcs/raycasting.c \
 		srcs/raycasting_utils.c \
+		srcs/parcer_utils_2.c \
 		srcs/init.c
 CC = cc
 FLAGS = -Wall -Werror -Wextra
@@ -23,12 +24,14 @@ RM = rm -f
 
 $(NAME): $(SRC_F)
 	@make all -C libft
+	@make all -C minilibx-linux
 	$(CC) $(FLAGS) $^ -o $@ $(LIB) -Iincludes
 
 all: $(NAME)
 
 clean:
 	make clean -C libft
+	make clean -C minilibx-linux
 
 fclean: clean
 	make fclean -C libft

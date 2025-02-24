@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmychaly <mmychaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: artemii <artemii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 03:55:58 by mmychaly          #+#    #+#             */
-/*   Updated: 2025/02/15 03:57:13 by mmychaly         ###   ########.fr       */
+/*   Updated: 2025/02/25 01:28:38 by artemii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define WIN_W  800
-# define WIN_H  600
-# define TEX_SIZE   64
-# define ROT_SPEED 0.0125
-# define MOVE_SPEED 0.0125
+# define WIN_W 800
+# define WIN_H 600
+# define TEX_SIZE 64
+# define ROT_SPEED 0.005
+# define MOVE_SPEED 0.005
 # define MOUSE_SPEED 0.006
 
 typedef struct s_mouse
 {
-	int		delta_x;
-	int		last_x;
-	double	old_dir_x;
-	double	old_plane_x;
-	double	rot;
+	int			delta_x;
+	int			last_x;
+	double		old_dir_x;
+	double		old_plane_x;
+	double		rot;
 }				t_mouse;
 
 typedef struct s_player
@@ -50,21 +50,21 @@ typedef struct s_player
 
 typedef struct s_keys_stat
 {
-	int	key_w;
-	int	key_s;
-	int	key_a;
-	int	key_d;
-	int	key_r;
-	int	key_l;
-}			t_keys_stat;
+	int			key_w;
+	int			key_s;
+	int			key_a;
+	int			key_d;
+	int			key_r;
+	int			key_l;
+}				t_keys_stat;
 
 typedef struct s_img_data
 {
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		line_length;
-	int		endian;
+	void		*img;
+	char		*addr;
+	int			bpp;
+	int			line_length;
+	int			endian;
 }				t_img_data;
 
 typedef struct s_ray_cast
@@ -90,7 +90,7 @@ typedef struct s_ray_cast
 	int			tex_y;
 	double		tex_pos;
 	t_img_data	*current_texture;
-}			t_ray_cast;
+}				t_ray_cast;
 
 typedef struct s_data
 {
@@ -134,11 +134,11 @@ int				ft_strncmp(const char *s1, const char *s2, size_t n);
 void			free_strs(char **strs);
 void			free_all(t_data *data);
 void			window_error(t_data *data);
-void			error_with_exit(t_data *data, char *msg,
-					char *to_free, char **split);
+void			error_with_exit(t_data *data, char *msg, char *to_free,
+					char **split);
 int				error_wo_exit(char *message);
 
-void			printf_map(t_data *data); //Удалить перед сдачей
+void			printf_map(t_data *data);
 void			remove_newline(char *str);
 int				define_colors(char *str);
 int				check_first_line(char *str);
@@ -198,4 +198,7 @@ int				handle_mouse(int x, int y, t_data *data);
 void			error_exit(t_data *data, char *str);
 void			destroy_game(t_data *data);
 int				close_window(t_data *data);
+int				is_str_numeric(char **s);
+void			check_unique_textures(t_data *data);
+
 #endif
